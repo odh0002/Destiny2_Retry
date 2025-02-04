@@ -67,5 +67,15 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	UInputAction* AirDashAction;
+
+	// 공중대시 선언
+	void AirDash(const FInputActionValue& Value);
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float DashSpeed = 1500.0f;
+
+	bool IsAirDash = false;
 };
 

@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
+#include <GameFramework/CharacterMovementComponent.h>
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -60,6 +61,7 @@ void ADestiny2Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	{
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		// Moving
@@ -71,6 +73,19 @@ void ADestiny2Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+	}
+}
+
+// 공중대시 구현부
+void ADestiny2Character::AirDash(const FInputActionValue& Value)
+{
+	if (GetCharacterMovement()->IsFalling())
+	{
+		if (IsAirDash == false)
+		{
+			IsAirDash = true;
+			LaunchCharacter(FVector(GetActorForwardVector() * DashSpeed), false, false);
+		}
 	}
 }
 
