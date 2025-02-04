@@ -22,10 +22,9 @@ void AEnemyBase::BeginPlay()
 	Health = 100.0f;
 	MaxHealth = Health;
 	MoveSpeed = 300.0f;
-	AttackRange = 150.0f;
+	//AttackRange = 150.0f;
+	//ChaseRange = 100.0f;
 	GetCharacterMovement()->MaxWalkSpeed = MoveSpeed;
-	AIControllerClass = AEnemyAIController::StaticClass();
-	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 // Called every frame
@@ -33,11 +32,6 @@ void AEnemyBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-void AEnemyBase::Attack()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Attack"));
 }
 
 void AEnemyBase::GetDamage(float DamageAmount)

@@ -34,9 +34,10 @@ public:
 	float MoveSpeed = 0.0f;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "AI")
-	float AttackRange = 0.0f;
+	float ChaseRange = 0.0f;
 
-	virtual void Attack();
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "AI")
+	float AttackRange = 0.0f;
 
 	virtual void GetDamage(float DamageAmount);
 

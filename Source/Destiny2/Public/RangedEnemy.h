@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "EnemyBase.h"
 #include "RangedEnemy.generated.h"
 
 UCLASS()
-class DESTINY2_API ARangedEnemy : public ACharacter
+class DESTINY2_API ARangedEnemy : public AEnemyBase
 {
 	GENERATED_BODY()
 
@@ -26,4 +27,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void Attack();
+
+	float atkTime = 0.0f;
 };
