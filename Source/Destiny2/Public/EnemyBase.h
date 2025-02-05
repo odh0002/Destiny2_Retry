@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "AI")
 	float ChaseRange = 0.0f;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = AI)
+	float RangedATKRange = 0.0f;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "AI")
 	float AttackRange = 0.0f;
 

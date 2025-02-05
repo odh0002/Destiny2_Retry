@@ -24,4 +24,13 @@ protected:
 	class ARangedEnemy* EnemyCharacter; //자신의 공격 범위를 전 지역에서 쓰기 위해 클래스 지정
 
 	class APawn* Player;
+
+	FTimerHandle MovingCalling;
+	bool moving = false;
+
+	void ChangeMovingBool();
+
+	void AIRightMoveCalling();
+	void AILeftMoveCalling();
+	void AIStopCalling();
 };
