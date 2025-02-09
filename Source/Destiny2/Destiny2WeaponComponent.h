@@ -57,4 +57,20 @@ protected:
 private:
 	/** The Character holding this weapon*/
 	ADestiny2Character* Character;
+
+	// ÇöÀç ³²Àº Åº¾à ¼ö
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 CurrentAmmo;
+
+	// ÅºÃ¢ Å©±â (ÃÖ´ë Åº¾à)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 MaxAmmo;
+
+	// Reload the weapon
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void Reload();
+
+	// Reload Input Action
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* ReloadAction;
 };
