@@ -58,19 +58,33 @@ private:
 	/** The Character holding this weapon*/
 	ADestiny2Character* Character;
 
-	// ÇöÀç ³²Àº Åº¾à ¼ö
+	// í˜„ì¬ ë‚¨ì€ íƒ„ì•½ ìˆ˜
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 CurrentAmmo;
 
-	// ÅºÃ¢ Å©±â (ÃÖ´ë Åº¾à)
+	// íƒ„ì°½ í¬ê¸° (ìµœëŒ€ íƒ„ì•½)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 MaxAmmo;
 
 	// Reload the weapon
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void Reload();
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void FinishReload();
 
 	// Reload Input Action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* ReloadAction;
+
+	protected:
+    //  ì¼ì • ì‹œê°„ í›„ ë‹¤ì‹œ AttachWeaponì„ ì‹œë„í•˜ëŠ” í•¨ìˆ˜
+    UFUNCTION()
+    void TryAttachWeaponAgain();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	UInputAction* ReloadAction;
+
+private:
+	uint32 FireActionBindingHandle = 0;
+	uint32 ReloadActionBindingHandle = 0;
 };

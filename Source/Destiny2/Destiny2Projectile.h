@@ -26,17 +26,17 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
-	// Ãæµ¹ °¨Áö
+	// ì¶©ëŒ ê°ì§€
 	UPROPERTY(VisibleDefaultsOnly, Category= "Projectile")
 	USphereComponent* CollisionComp;
 
 
-	// ±¤Åº È¿°ú
+	// ê´‘íƒ„ íš¨ê³¼
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Projectile")
 	class UNiagaraComponent* ProjectileEffect;
 
 
-	// ÃÑ¾Ë ÀÌµ¿
+	// ì´ì•Œ ì´ë™
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 

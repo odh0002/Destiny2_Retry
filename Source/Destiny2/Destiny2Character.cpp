@@ -76,7 +76,7 @@ void ADestiny2Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	}
 }
 
-// °øÁß´ë½Ã ±¸ÇöºÎ
+// ê³µì¤‘ëŒ€ì‹œ êµ¬í˜„ë¶€
 void ADestiny2Character::AirDash(const FInputActionValue& Value)
 {
 	if (GetCharacterMovement()->IsFalling())
