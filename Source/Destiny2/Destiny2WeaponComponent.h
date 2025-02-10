@@ -81,8 +81,8 @@ private:
     UFUNCTION()
     void TryAttachWeaponAgain();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
-	UInputAction* ReloadAction;
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	//UInputAction* ReloadAction;
 
 private:
 	uint32 FireActionBindingHandle = 0;

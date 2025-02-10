@@ -69,6 +69,8 @@ void ADestiny2Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADestiny2Character::Look);
+		// Reloading
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADestiny2Character::Reload);
 	}
 	else
 	{
@@ -115,3 +117,4 @@ void ADestiny2Character::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
