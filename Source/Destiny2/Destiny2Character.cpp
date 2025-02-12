@@ -69,8 +69,10 @@ void ADestiny2Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADestiny2Character::Look);
-		// Reloading
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADestiny2Character::Reload);
+		// ㅇㅔ임
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &ADestiny2Character::Aim);
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &ADestiny2Character::Aim);
+
 	}
 	else
 	{
@@ -115,6 +117,23 @@ void ADestiny2Character::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void ADestiny2Character::Aim(const FInputActionValue& Value)
+{
+	if (isAim == false)
+	{
+		isAim = true;
+		FirstPersonCameraComponent->SetFieldOfView(AimResult);
+		// 나중에 45.0f 을 AimResult로 바꾸기...... 별 차이가 있나 ?
+		UE_LOG(LogTemp, Warning, TEXT("Aim........"));
+	}
+	else
+	{
+		isAim = false;
+		FirstPersonCameraComponent->SetFieldOfView(90.0f);
+		UE_LOG(LogTemp, Warning, TEXT("Release......."));
 	}
 }
 

@@ -44,6 +44,10 @@ class ADestiny2Character : public ACharacter
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
+
+	/** Aim Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* AimAction;
 	
 public:
 	ADestiny2Character();
@@ -55,6 +59,15 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	/** Called for looking input */
+	void Aim(const FInputActionValue& Value);
+	bool isAim = false;
+
+	float StartAngle = 90.0f;
+	float EndAngle = 0.0f;
+	float Alpha = 0.3f;
+
+	float AimResult = FMath::Lerp(StartAngle, EndAngle, Alpha);
 
 protected:
 	// APawn interface

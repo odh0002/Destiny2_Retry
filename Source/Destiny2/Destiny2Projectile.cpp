@@ -22,17 +22,17 @@ ADestiny2Projectile::ADestiny2Projectile()
     CollisionComp->SetSimulatePhysics(false);   // 투사체 자체는 물리적용 X (움직임은 ProjectileMovement가 담당)
     CollisionComp->SetNotifyRigidBodyCollision(true);  // 물리 충돌 이벤트 활성화
     CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);  // 물리 & 충돌 감지 활성화
-    CollisionComp->SetCollisionObjectType(ECC_PhysicsBody);  // 물리 객체로 설정 (중요!)
+    CollisionComp->SetCollisionObjectType(ECC_PhysicsBody);  // 물리 객체로 설정
     CollisionComp->SetCollisionResponseToAllChannels(ECR_Block);  // 모든 채널에서 충돌 감지
     CollisionComp->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);  // 바닥 & 벽과 충돌 가능
     RootComponent = CollisionComp;
 
-    // 광탄 파티클 효과 추가 (눈에 보이는 에너지 탄환)
+    // 광탄 파티클 효과 추가
     ProjectileEffect = CreateDefaultSubobject<UNiagaraComponent>(TEXT("ProjectileEffect"));
     ProjectileEffect->SetupAttachment(RootComponent);
 
-    // 광탄 이펙트 기본값 설정 (사용할 파티클 경로 변경 가능)
-    static ConstructorHelpers::FObjectFinder<UNiagaraSystem> NiagaraAsset(TEXT("/Game/LJY/VFX/P_GlowBullet.P_GlowBullet"));
+    // 광탄 이펙트 기본값 설정
+    static ConstructorHelpers::FObjectFinder<UNiagaraSystem> NiagaraAsset(TEXT("/Game/LJY/VFX/P_Beam.P_Beam"));
     if (NiagaraAsset.Succeeded())
     {
         ProjectileEffect->SetAsset(NiagaraAsset.Object);

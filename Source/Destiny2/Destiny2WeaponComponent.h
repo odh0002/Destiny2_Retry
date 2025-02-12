@@ -65,6 +65,9 @@ private:
 	// 탄창 크기 (최대 탄약)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 MaxAmmo;
+	// 소지 탄약
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 TotalAmmo;
 
 	// Reload the weapon
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
@@ -72,9 +75,11 @@ private:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void FinishReload();
 
+
 	// Reload Input Action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* ReloadAction;
+
 
 	protected:
     //  일정 시간 후 다시 AttachWeapon을 시도하는 함수

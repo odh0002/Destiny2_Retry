@@ -94,6 +94,8 @@ void UDestiny2WeaponComponent::Fire()
 }
 
 
+
+
 bool UDestiny2WeaponComponent::AttachWeapon(ADestiny2Character* TargetCharacter)
 {
 	UE_LOG(LogTemp, Warning, TEXT("AttachWeapon() 호출됨!"));  // 실행 여부 확인
@@ -150,6 +152,8 @@ bool UDestiny2WeaponComponent::AttachWeapon(ADestiny2Character* TargetCharacter)
 
 		// 재장전 기능 (Reload)
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Started, this, &UDestiny2WeaponComponent::Reload);
+	
+
 	}
 	// Check that the character is valid, and has no weapon component yet
 	if (Character == nullptr || Character->GetInstanceComponents().FindItemByClass<UDestiny2WeaponComponent>())
@@ -209,6 +213,7 @@ void UDestiny2WeaponComponent::Reload()
 		UE_LOG(LogTemp, Warning, TEXT("Reloading..."));
 		CurrentAmmo = MaxAmmo;
 		UE_LOG(LogTemp, Warning, TEXT("Reload Complete! Ammo: %d"), CurrentAmmo);
+		TotalAmmo = TotalAmmo - MaxAmmo;
 	}
 	else
 	{
@@ -223,6 +228,8 @@ void UDestiny2WeaponComponent::FinishReload()
 	//bIsReloading = false;
 	UE_LOG(LogTemp, Warning, TEXT("Reload Complete! Ammo: %d"), CurrentAmmo);
 }
+
+
 
 
 void UDestiny2WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
