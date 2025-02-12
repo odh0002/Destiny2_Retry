@@ -11,18 +11,8 @@ class ADestiny2GameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-protected:
-	virtual void BeginPlay() override;
-
 public:
 	ADestiny2GameMode();
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class UUserWidget> mainWidget;
-
-
-private:
-	class UMainWidget* mainUI;
 };
 
 
