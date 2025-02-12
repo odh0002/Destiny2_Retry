@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
+#include <GameFramework/CharacterMovementComponent.h>
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -60,6 +61,7 @@ void ADestiny2Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	{
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		// Moving
@@ -67,10 +69,27 @@ void ADestiny2Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADestiny2Character::Look);
+		// ㅇㅔ임
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &ADestiny2Character::Aim);
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &ADestiny2Character::Aim);
+
 	}
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+	}
+}
+
+// 공중대시 구현부
+void ADestiny2Character::AirDash(const FInputActionValue& Value)
+{
+	if (GetCharacterMovement()->IsFalling())
+	{
+		if (IsAirDash == false)
+		{
+			IsAirDash = true;
+			LaunchCharacter(FVector(GetActorForwardVector() * DashSpeed), false, false);
+		}
 	}
 }
 
@@ -100,3 +119,21 @@ void ADestiny2Character::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
+void ADestiny2Character::Aim(const FInputActionValue& Value)
+{
+	if (isAim == false)
+	{
+		isAim = true;
+		FirstPersonCameraComponent->SetFieldOfView(AimResult);
+		// 나중에 45.0f 을 AimResult로 바꾸기...... 별 차이가 있나 ?
+		UE_LOG(LogTemp, Warning, TEXT("Aim........"));
+	}
+	else
+	{
+		isAim = false;
+		FirstPersonCameraComponent->SetFieldOfView(90.0f);
+		UE_LOG(LogTemp, Warning, TEXT("Release......."));
+	}
+}
+
