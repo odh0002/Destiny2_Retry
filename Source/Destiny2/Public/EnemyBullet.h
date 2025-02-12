@@ -3,18 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "EnemyBase.h"
-#include "MeleeEnemy.generated.h"
+#include "GameFramework/Actor.h"
+#include "EnemyBullet.generated.h"
 
 UCLASS()
-class DESTINY2_API AMeleeEnemy : public AEnemyBase
+class DESTINY2_API AEnemyBullet : public AActor
 {
 	GENERATED_BODY()
-
-public:
-	// Sets default values for this character's properties
-	AMeleeEnemy();
+	
+public:	
+	// Sets default values for this actor's properties
+	AEnemyBullet();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,7 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void Attack();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Speed = 600.0f;
 
-	float atkTime = 0.0f;
+	FVector Dir;
 };
