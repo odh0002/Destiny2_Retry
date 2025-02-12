@@ -69,6 +69,9 @@ protected:
 
 	float AimResult = FMath::Lerp(StartAngle, EndAngle, Alpha);
 
+	int MaxAirDashes = 1;  // 공중에서 대시할 수 있는 최대 횟수
+	int CurrentAirDashes = 0;
+
 protected:
 	// APawn interface
 	virtual void NotifyControllerChanged() override;
@@ -86,10 +89,10 @@ public:
 
 	// 공중대시 선언
 	void AirDash(const FInputActionValue& Value);
+	void ResetAirDash(const FInputActionValue& Value);
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float DashSpeed = 1500.0f;
 
-	bool IsAirDash = false;
 };
 
