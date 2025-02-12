@@ -14,4 +14,9 @@ class DESTINY2_API UCrossHairWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float CrossHairSpread = 10; // 크로스헤어 퍼지는 범위
+
 };
