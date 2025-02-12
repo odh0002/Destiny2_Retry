@@ -4,7 +4,6 @@
 #include "MeleeEnemy.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnemyAIController.h"
-#include "../Destiny2Character.h"
 
 // Sets default values
 AMeleeEnemy::AMeleeEnemy()
@@ -14,7 +13,7 @@ AMeleeEnemy::AMeleeEnemy()
 
 	Health = 150.0f;
 	MaxHealth = Health;
-	MoveSpeed = 1000.0f;
+	MoveSpeed = 500.0f;
 	GetCharacterMovement()->MaxWalkSpeed = MoveSpeed;
 	
 }
@@ -23,6 +22,7 @@ AMeleeEnemy::AMeleeEnemy()
 void AMeleeEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	
 }
 
 // Called every frame
@@ -30,20 +30,5 @@ void AMeleeEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (atkTime > 0)
-	{
-		atkTime -= DeltaTime;
-	}
-	else { return; }
-}
-
-void AMeleeEnemy::Attack()
-{
-	if (atkTime<=0)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Melee Enemy Attack"));
-		atkTime = 2.0f;
-	}
-	else { return; }
 }
 

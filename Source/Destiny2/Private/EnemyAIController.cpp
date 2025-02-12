@@ -4,69 +4,62 @@
 #include "EnemyAIController.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
+#include "EnemyBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "MeleeEnemy.h"
+
+AEnemyAIController::AEnemyAIController()
+{
+	AIPerception = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("AIPerception"));
+	SetPerceptionComponent(*AIPerception);
+
+	sightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightComfig"));
+	if (sightConfig)
+	{
+		sightConfig->SightRadius = 1000.0f; //AI가 볼 수 있는 거리
+		sightConfig->LoseSightRadius = 1200.0f; // 시야에서 놓쳤을 때 거리
+		sightConfig->PeripheralVisionAngleDegrees = 75.0f; // 시야각
+		sightConfig->SetMaxAge(5.0f); //감지 정보 유지 시간
+		sightConfig->DetectionByAffiliation.bDetectEnemies = true;
+		sightConfig->DetectionByAffiliation.bDetectNeutrals = true;
+		sightConfig->DetectionByAffiliation.bDetectFriendlies = false;
+
+		AIPerception->ConfigureSense(*sightConfig);
+		AIPerception->SetDominantSense(sightConfig->GetSenseImplementation());
+	}
+
+	AIPerception->OnTargetPerceptionUpdated.AddDynamic(this, &AEnemyAIController::OnTargetDetected);
+}
 
 void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//맵에 처음부터 배치되어있을때 작동해서 EnemyCharacter에 저장함
-	EnemyCharacter = Cast<AMeleeEnemy>(GetPawn());
-
-	Player = GetWorld()->GetFirstPlayerController()->GetPawn();
+	EnemyCharacter = Cast<AEnemyBase>(GetPawn());
 }
 
 void AEnemyAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	//만약 위에서 Begin때 되지 못했을 경우를 대비하여 틱에서 실행하게 만듦
-	if (!EnemyCharacter)
+	if (LookatPlayer)
 	{
-		EnemyCharacter = Cast<AMeleeEnemy>(GetPawn());
-	}
+		ChasePlayer(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	//그리고 성공했을 경우에만 플레이어 추적 및 공격 상호작용이 일어남
+		//sightConfig->PeripheralVisionAngleDegrees = 130.0f; 시야각 조절은 이루어 지지 않음
+	}
 	else
 	{
-		//체력이 0이 아닐 경우
-		if (EnemyCharacter->Health > 0)
-		{
-			//조건없이 플레이어를 좇음
-			ChasePlayer(Player);
-			SetFocus(Player);
-		}
-		else {}
-
-		//float dis = FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation());
-
-		//만약 플레이어와의 거리가 AttackRange보다 적을 경우 공격을 실행
-		if (FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation()) <= EnemyCharacter->AttackRange)
-		{
-			EnemyCharacter->Attack();
-		}
-		else { return; }
+		StopMovement();
 	}
-	//if (LookatPlayer)
-	//{
-	//	ChasePlayer(GetWorld()->GetFirstPlayerController()->GetPawn());
-	//
-	//	//sightConfig->PeripheralVisionAngleDegrees = 130.0f; 시야각 조절은 이루어 지지 않음
-	//}
-	//else
-	//{
-	//	StopMovement();
-	//}
-	//
+
 	//AEnemyBase* EnemyCharacter = Cast<AEnemyBase>(GetPawn());
 	//if (!EnemyCharacter) return;
-	//
+
 	//APawn* playerPawn = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	//if (!playerPawn) return;
-	//
+
 	//float Distance = FVector::Dist(EnemyCharacter->GetActorLocation(), playerPawn->GetActorLocation());
-	//
+
 	//if (Distance <= EnemyCharacter->AttackRange)
 	//{
 	//	StopMovement();
@@ -77,7 +70,26 @@ void AEnemyAIController::Tick(float DeltaSeconds)
 	//}
 }
 
-void AEnemyAIController::ChasePlayer(APawn* inGamePlayer)
+void AEnemyAIController::OnTargetDetected(AActor* Actor, FAIStimulus Stimulus)
 {
-	MoveToActor(inGamePlayer, EnemyCharacter->ChaseRange); //자신의 공격 범위 만큼 좇아감
+	if (Stimulus.WasSuccessfullySensed())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Succcess"));
+		//ChasePlayer(GetWorld()->GetFirstPlayerController()->GetPawn());
+		LookatPlayer = true;
+
+		//MoveToActor(GetWorld()->GetFirstPlayerController()->GetPawn(), 100.0f); //거리 100까지 추격
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Fail"));
+		LookatPlayer = false;
+
+		//StopMovement();
+	}
+}
+
+void AEnemyAIController::ChasePlayer(APawn* Player)
+{
+	MoveToActor(Player, EnemyCharacter->AttackRange); //자신의 공격 범위 만큼 좇아감
 }
