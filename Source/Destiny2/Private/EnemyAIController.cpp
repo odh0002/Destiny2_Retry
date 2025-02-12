@@ -11,6 +11,7 @@ void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//맵에 처음부터 배치되어있을때 작동해서 EnemyCharacter에 저장함
 	EnemyCharacter = Cast<AMeleeEnemy>(GetPawn());
 
 	Player = GetWorld()->GetFirstPlayerController()->GetPawn();
@@ -20,25 +21,33 @@ void AEnemyAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	//체력이 0이 아닐 경우
-	if(EnemyCharacter->Health >= 0 )
-	{ 
-		//조건없이 플레이어를 좇음
-		ChasePlayer(Player);
-		SetFocus(Player);
-	}
-	else { return; }
-
-
-	//float dis = FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation());
-	
-	//만약 플레이어와의 거리가 AttackRange보다 적을 경우 공격을 실행
-	if (FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation()) <= EnemyCharacter->AttackRange)
+	//만약 위에서 Begin때 되지 못했을 경우를 대비하여 틱에서 실행하게 만듦
+	if (!EnemyCharacter)
 	{
-		EnemyCharacter->Attack();
+		EnemyCharacter = Cast<AMeleeEnemy>(GetPawn());
 	}
-	else { return; }
-		
+
+	//그리고 성공했을 경우에만 플레이어 추적 및 공격 상호작용이 일어남
+	else
+	{
+		//체력이 0이 아닐 경우
+		if (EnemyCharacter->Health > 0)
+		{
+			//조건없이 플레이어를 좇음
+			ChasePlayer(Player);
+			SetFocus(Player);
+		}
+		else {}
+
+		//float dis = FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation());
+
+		//만약 플레이어와의 거리가 AttackRange보다 적을 경우 공격을 실행
+		if (FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation()) <= EnemyCharacter->AttackRange)
+		{
+			EnemyCharacter->Attack();
+		}
+		else { return; }
+	}
 	//if (LookatPlayer)
 	//{
 	//	ChasePlayer(GetWorld()->GetFirstPlayerController()->GetPawn());

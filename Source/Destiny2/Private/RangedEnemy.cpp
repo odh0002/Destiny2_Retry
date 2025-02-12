@@ -37,13 +37,13 @@ void ARangedEnemy::Tick(float DeltaTime)
 	{
 	case 1: // 오른쪽으로 이동하게 하는 
 		//이건 플레이어를 기준으로 오른쪽으로 동그랗게 회전하는 것
-		SetActorLocation(GetActorLocation() + GetActorRightVector() * MoveSpeed * DeltaTime);
-		//SetActorLocation(GetActorLocation() + Dir * MoveSpeed * DeltaTime);
+		//SetActorLocation(GetActorLocation() + GetActorRightVector() * MoveSpeed * DeltaTime);
+		SetActorLocation(GetActorLocation() + Dir * MoveSpeed * DeltaTime);
 		break;
 	case 2: //왼쪽으로 이동하게 하는
 		//이건 플레이어를 기준으로 왼쪽으로 동그랗게 회전하는 것
-		SetActorLocation(GetActorLocation() + -(GetActorRightVector()) * MoveSpeed * DeltaTime);
-		//SetActorLocation(GetActorLocation() + Dir * MoveSpeed * DeltaTime);
+		//SetActorLocation(GetActorLocation() + -(GetActorRightVector()) * MoveSpeed * DeltaTime);
+		SetActorLocation(GetActorLocation() + Dir * MoveSpeed * DeltaTime);
 		break;
 	default:
 		break;
