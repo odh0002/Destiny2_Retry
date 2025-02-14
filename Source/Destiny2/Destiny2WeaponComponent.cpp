@@ -24,6 +24,7 @@ UDestiny2WeaponComponent::UDestiny2WeaponComponent()
 	// 기본 탄약 설정
 	MaxAmmo = 20;
 	CurrentAmmo = MaxAmmo;
+	TotalAmmo = 999;
 }
 
 
@@ -214,20 +215,22 @@ void UDestiny2WeaponComponent::Reload()
 		CurrentAmmo = MaxAmmo;
 		UE_LOG(LogTemp, Warning, TEXT("Reload Complete! Ammo: %d"), CurrentAmmo);
 		TotalAmmo = TotalAmmo - MaxAmmo;
+		// Try and play a firing animation if specified
+		if (ReloadAnimation != nullptr)
+		{
+			// Get the animation object for the arms mesh
+			UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
+			if (AnimInstance != nullptr)
+			{
+				AnimInstance->Montage_Play(ReloadAnimation, 1.f);
+				UE_LOG(LogTemp, Warning, TEXT("Reload Animmmmmmm"));
+			}
+		}
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Ammo is already full!"));
-	}
-
-	if (ReloadAction != nullptr)
-	{
-		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
-		if (AnimInstance != nullptr)
-		{
-			AnimInstance->Montage_Play(ReloadAnimation, 1.f);
-		}
+		UE_LOG(LogTemp, Warning, TEXT("Reload Faileddddddddddd"));
 	}
 }
 

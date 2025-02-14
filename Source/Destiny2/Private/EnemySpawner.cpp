@@ -60,7 +60,11 @@ void AEnemySpawner::SpawnEnemyWave(TArray<TSubclassOf<AEnemyBase>> Wave, int32 W
 	for (int i = 0; i < Wave.Num(); ++i)
 	{
 		//반복으로 해당 웨이브안에 적들이 소환 >> 딜레이가 없기에 아마 한꺼번에 소환이 될 같음
-		GetWorld()->SpawnActor<AEnemyBase>(Wave[i], FTransform(FVector(0)));
+		//GetWorld()->SpawnActor<AEnemyBase>(Wave[i], FTransform(FVector(0)));
+
+		//임시 테스트용
+		//(X=2010.000000,Y=2280.000000,Z=60.000000)
+		GetWorld()->SpawnActor<AEnemyBase>(Wave[i], FTransform(FVector(2010.0f,2280.0f,60.0f)));
 
 		//if (WaveNum == 1)
 		//{

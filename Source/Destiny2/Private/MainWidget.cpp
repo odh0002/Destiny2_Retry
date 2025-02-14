@@ -2,4 +2,5 @@
 
 
 #include "MainWidget.h"
+#include "../Destiny2WeaponComponent.h"
 

@@ -11,6 +11,7 @@
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
 #include <GameFramework/CharacterMovementComponent.h>
+#include "Destiny2WeaponComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -142,4 +143,5 @@ void ADestiny2Character::Aim(const FInputActionValue& Value)
 		UE_LOG(LogTemp, Warning, TEXT("Release......."));
 	}
 }
+
 
