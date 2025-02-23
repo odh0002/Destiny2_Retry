@@ -36,13 +36,16 @@ void AEnemyAIController::Tick(float DeltaSeconds)
 		{
 			if (EnemyCharacter->Anim->bIsAttack == false)
 			{
-				//조건없이 플레이어를 좇음
+				//조건없이 플레이어를 추적
 				ChasePlayer(Player);
 			}
 
-			SetFocus(Player);
+			//SetFocus(Player);
 		}
-		else { StopMovement(); }
+		else {
+			ClearFocus(EAIFocusPriority::Gameplay);
+			StopMovement();
+		}
 
 		//float dis = FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation());
 

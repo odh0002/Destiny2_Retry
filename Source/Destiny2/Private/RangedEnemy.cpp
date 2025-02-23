@@ -73,6 +73,8 @@ void ARangedEnemy::Tick(float DeltaTime)
 	if (Health <= 0)
 	{
 		AIController->Anim->bIsDead = true;
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		WeakCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 	else
 	{ 
@@ -81,12 +83,12 @@ void ARangedEnemy::Tick(float DeltaTime)
 		case 1: // ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ÇÏ°Ô ÇÏ´Â 
 			//ÀÌ°Ç ÇÃ·¹ÀÌ¾î¸¦ ±âÁØÀ¸·Î ¿À¸¥ÂÊÀ¸·Î µ¿±×¶þ°Ô È¸ÀüÇÏ´Â °Í
 			//SetActorLocation(GetActorLocation() + GetActorRightVector() * MoveSpeed * DeltaTime);
-			SetActorLocation(GetActorLocation() + Dir * MoveSpeed * DeltaTime);
+			SetActorLocation(GetActorLocation() + Dir * MoveSpeed * DeltaTime,true);
 			break;
 		case 2: //¿ÞÂÊÀ¸·Î ÀÌµ¿ÇÏ°Ô ÇÏ´Â
 			//ÀÌ°Ç ÇÃ·¹ÀÌ¾î¸¦ ±âÁØÀ¸·Î ¿ÞÂÊÀ¸·Î µ¿±×¶þ°Ô È¸ÀüÇÏ´Â °Í
 			//SetActorLocation(GetActorLocation() + -(GetActorRightVector()) * MoveSpeed * DeltaTime);
-			SetActorLocation(GetActorLocation() + Dir * MoveSpeed * DeltaTime);
+			SetActorLocation(GetActorLocation() + Dir * MoveSpeed * DeltaTime,true);
 			break;
 		default:
 			break;
@@ -179,7 +181,7 @@ void ARangedEnemy::OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	if (bullet)
 	{
 		//ï¿½Î¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½Å´
-		GetDamage(15.0f);
+		GetDamage(20.0f);
 
 		//ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½
 		bullet->Destroy();
@@ -194,7 +196,7 @@ void ARangedEnemy::OnWeakOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	if (bullet)
 	{
 		//ï¿½Î¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½Å´
-		GetDamage(30.0f);
+		GetDamage(40.0f);
 
 		//ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½
 		bullet->Destroy();

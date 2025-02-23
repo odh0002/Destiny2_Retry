@@ -42,7 +42,9 @@ void AEnemyBullet::OnEnemyBulletOverlap(UPrimitiveComponent* OverlappedComponent
 
 	if (player)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Enemy Bullet Attack -> Player"));
+		//UE_LOG(LogTemp, Warning, TEXT("Enemy Bullet Attack -> Player"));
+
+		GEngine->AddOnScreenDebugMessage(10, 3.0f, FColor::Blue, TEXT("Enemy Bullet Attack"));
 
 		Destroy();
 	}

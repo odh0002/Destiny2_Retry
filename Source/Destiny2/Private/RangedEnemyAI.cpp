@@ -36,6 +36,8 @@ void ARangedEnemyAI::Tick(float DeltaSeconds)
 		//체력이 0이 아닐 경우
 		if (EnemyCharacter->Health > 0)
 		{
+			SetFocus(Player);
+
 			//공격 이동이 아닐 경우 플레이어를 좇음
 			if (moving == false)
 			{
@@ -52,7 +54,7 @@ void ARangedEnemyAI::Tick(float DeltaSeconds)
 
 			else
 			{
-				SetFocus(Player);
+				
 				CurTime = 0.0f;
 				return;
 			}
@@ -89,7 +91,9 @@ void ARangedEnemyAI::Tick(float DeltaSeconds)
 			else { return; }
 
 		}
-		else { StopMovement(); }
+		else { ClearFocus(EAIFocusPriority::Gameplay);
+		StopMovement();
+		}
 
 	}
 }

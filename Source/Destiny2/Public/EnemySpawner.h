@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
+#include "GameClearActor.h"
 #include "EnemySpawner.generated.h"
 
 UCLASS()
@@ -92,4 +93,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Fight")
 	void OnPlayer();
+
+	UPROPERTY(EditInstanceOnly)
+	class AGameClearActor* ClearActor;
 };

@@ -3,6 +3,7 @@
 
 #include "EnemySpawner.h"
 #include "EngineUtils.h"
+#include "GameClearActor.h"
 
 // Sets default values
 AEnemySpawner::AEnemySpawner()
@@ -52,7 +53,7 @@ void AEnemySpawner::Tick(float DeltaTime)
 	//웨이브 C의 적이 다 잡히거나 조건을 달성하면
 	if (WaveCClera)
 	{
-		//게임 클리어?
+		ClearActor->WaveEnd();
 	}
 }
 

@@ -97,6 +97,8 @@ void AMeleeEnemy::Tick(float DeltaTime)
 	{
 		
 		Anim->bIsDead = true;
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		HeadCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 	else{}
 }
@@ -170,7 +172,7 @@ void AMeleeEnemy::OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	if (bullet)
 	{
 		//�θ� Ŭ������ �ִ� �Լ��� �ҷ� ü���� ���ҽ�Ŵ
-		GetDamage(15.0f);
+		GetDamage(20.0f);
 
 		//�Ѿ��� �ı�
 		bullet->Destroy();
@@ -185,7 +187,7 @@ void AMeleeEnemy::OnHeadOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 	if (bullet)
 	{
 		//�θ� Ŭ������ �ִ� �Լ��� �ҷ� ü���� ���ҽ�Ŵ
-		GetDamage(30.0f);
+		GetDamage(40.0f);
 
 		//�Ѿ��� �ı�
 		bullet->Destroy();
@@ -198,6 +200,8 @@ void AMeleeEnemy::OnWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 
 	if (player)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Melee Enemy Attack -> Player"));
+		//UE_LOG(LogTemp, Warning, TEXT("Melee Enemy Attack -> Player"));
+
+		GEngine->AddOnScreenDebugMessage(20, 3.0f, FColor::Red, TEXT("Melee Enemy Attack"));
 	}
 }
