@@ -23,6 +23,7 @@ public:
 
 private:
 	class UMainWidget* mainUI;
+
 };
 
 

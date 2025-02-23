@@ -28,3 +28,4 @@ ADestiny2GameMode::ADestiny2GameMode()
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 }
+

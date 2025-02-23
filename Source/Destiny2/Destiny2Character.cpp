@@ -11,6 +11,7 @@
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
 #include <GameFramework/CharacterMovementComponent.h>
+#include "Destiny2WeaponComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -85,14 +86,20 @@ void ADestiny2Character::AirDash(const FInputActionValue& Value)
 {
 	if (GetCharacterMovement()->IsFalling())
 	{
-		if (IsAirDash == false)
+		if (CurrentAirDashes < MaxAirDashes)
 		{
-			IsAirDash = true;
+			CurrentAirDashes++;
 			LaunchCharacter(FVector(GetActorForwardVector() * DashSpeed), false, false);
 		}
 	}
+
 }
 
+
+void ADestiny2Character::ResetAirDash(const FInputActionValue& Value)
+{
+	CurrentAirDashes = 0;
+}
 
 void ADestiny2Character::Move(const FInputActionValue& Value)
 {
@@ -136,4 +143,5 @@ void ADestiny2Character::Aim(const FInputActionValue& Value)
 		UE_LOG(LogTemp, Warning, TEXT("Release......."));
 	}
 }
+
 

@@ -16,12 +16,13 @@ class DESTINY2_API UMainWidget : public UUserWidget
 	
 
 public:
-	UPROPERTY(EditAnywhere, meta=(BindWidget))
-	class UTextBlock* totalAmmo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UTextBlock* TotalAmmo;
 
-	UPROPERTY(EditAnywhere, meta=(BindWidget))
-	class UTextBlock* currentAmmo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UTextBlock* CurrentAmmo;
 
 
-
+	void PrintTotalAmmo(int32 value);
+	void PrintCurrentAmmo(int32 value);
 };
