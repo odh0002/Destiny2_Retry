@@ -3,6 +3,7 @@
 
 #include "RangedEnemyAI.h"
 #include "RangedEnemy.h"
+#include "REAnimInstance.h"
 
 void ARangedEnemyAI::BeginPlay()
 {
@@ -24,18 +25,37 @@ void ARangedEnemyAI::Tick(float DeltaSeconds)
 		EnemyCharacter = Cast<ARangedEnemy>(GetPawn());
 	}
 
+	if (!Anim)
+	{
+		Anim = Cast<UREAnimInstance>(EnemyCharacter->GetMesh()->GetAnimInstance());
+	}
+
 	//그리고 성공했을 경우에만 플레이어 추적 및 공격 상호작용이 일어남
 	else 
 	{
 		//체력이 0이 아닐 경우
-		if (EnemyCharacter->Health >= 0)
+		if (EnemyCharacter->Health > 0)
 		{
 			//공격 이동이 아닐 경우 플레이어를 좇음
 			if (moving == false)
 			{
 				ChasePlayer(Player);
+
+				CurTime += DeltaSeconds;
+
+				if (CurTime >= ATKDelayTime)
+				{
+					EnemyCharacter->Attack();
+					CurTime = 0.0f;
+				}
+			}	
+
+			else
+			{
+				SetFocus(Player);
+				CurTime = 0.0f;
+				return;
 			}
-			SetFocus(Player);
 
 			//RangedATKRange 보다 적을 경우 
 			if (FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation()) <= EnemyCharacter->RangedATKRange)
@@ -69,7 +89,7 @@ void ARangedEnemyAI::Tick(float DeltaSeconds)
 			else { return; }
 
 		}
-		else { return; }
+		else { StopMovement(); }
 
 	}
 }
@@ -82,17 +102,23 @@ void ARangedEnemyAI::ChasePlayer(APawn* inGamePlayer)
 void ARangedEnemyAI::ChangeMovingBool()
 {
 	moving = !moving;
+
+	Anim->bRightMove = false;
+	Anim->bLeftMove = false;
+
 	EnemyCharacter->ActionNumReset();
 }
 
 void ARangedEnemyAI::AIRightMoveCalling()
 {
 	//이동을 멈추고 잠시동안 움직이지 않게 만듦
-	StopMovement();
+	//StopMovement();
 	moving = true;
 
+	Anim->bRightMove = true;
+
 	//일정 시간 후 자동으로 불을 변경해서 플레이어를 추적하게 변경
-	GetWorld()->GetTimerManager().SetTimer(MovingCalling, this, &ARangedEnemyAI::ChangeMovingBool, 5.0f, false);
+	GetWorld()->GetTimerManager().SetTimer(MovingCalling, this, &ARangedEnemyAI::ChangeMovingBool, 2.5f, false);
 }
 
 void ARangedEnemyAI::AILeftMoveCalling()
@@ -101,16 +127,18 @@ void ARangedEnemyAI::AILeftMoveCalling()
 	StopMovement();
 	moving = true;
 
+	Anim->bLeftMove = true;
+
 	//일정 시간 후 자동으로 불을 변경해서 플레이어를 추적하게 변경
-	GetWorld()->GetTimerManager().SetTimer(MovingCalling, this, &ARangedEnemyAI::ChangeMovingBool, 5.0f, false);
+	GetWorld()->GetTimerManager().SetTimer(MovingCalling, this, &ARangedEnemyAI::ChangeMovingBool, 2.5f, false);
 }
 
 void ARangedEnemyAI::AIStopCalling()
 {
 	//이동을 멈추고 잠시동안 움직이지 않게 만듦
-	StopMovement();
+	//StopMovement();
 	moving = true;
 
 	//일정 시간 후 자동으로 불을 변경해서 플레이어를 추적하게 변경
-	GetWorld()->GetTimerManager().SetTimer(MovingCalling, this, &ARangedEnemyAI::ChangeMovingBool, 5.0f, false);
+	GetWorld()->GetTimerManager().SetTimer(MovingCalling, this, &ARangedEnemyAI::ChangeMovingBool, 2.5f, false);
 }

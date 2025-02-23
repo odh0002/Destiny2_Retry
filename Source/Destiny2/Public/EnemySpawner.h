@@ -81,4 +81,15 @@ public:
 
 	//각 에너미들이 죽을 경우 숫자를 받아서 각 상황에 맞게 카운트를 줄여줌
 	void WaveEnemyCountDown(int32 WaveNum);
+
+	TArray<AActor*> spawnPoints;
+
+	void SetSpawnPoints();
+
+	int32 RandomSpawnPoint();
+
+	FTimerHandle MethodCalling;
+
+	UFUNCTION(BlueprintCallable, Category = "Fight")
+	void OnPlayer();
 };

@@ -220,13 +220,13 @@ void UDestiny2WeaponComponent::Reload()
 		UE_LOG(LogTemp, Warning, TEXT("Ammo is already full!"));
 	}
 
-	if (ReloadAction != nullptr)
+	if (ReloadAnimation != nullptr)
 	{
 		// Get the animation object for the arms mesh
 		UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
 		if (AnimInstance != nullptr)
 		{
-			AnimInstance->Montage_Play(ReloadAnimation, 1.f);
+			AnimInstance->Montage_Play(ReloadAnimation, 3.f);
 		}
 	}
 }

@@ -6,6 +6,7 @@
 #include "Perception/AISenseConfig_Sight.h"
 #include "Kismet/GameplayStatics.h"
 #include "MeleeEnemy.h"
+#include "MEAnimInstance.h"
 
 void AEnemyAIController::BeginPlay()
 {
@@ -33,11 +34,15 @@ void AEnemyAIController::Tick(float DeltaSeconds)
 		//체력이 0이 아닐 경우
 		if (EnemyCharacter->Health > 0)
 		{
-			//조건없이 플레이어를 좇음
-			ChasePlayer(Player);
+			if (EnemyCharacter->Anim->bIsAttack == false)
+			{
+				//조건없이 플레이어를 좇음
+				ChasePlayer(Player);
+			}
+
 			SetFocus(Player);
 		}
-		else {}
+		else { StopMovement(); }
 
 		//float dis = FVector::Distance(EnemyCharacter->GetActorLocation(), Player->GetActorLocation());
 

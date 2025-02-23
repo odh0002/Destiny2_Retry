@@ -53,6 +53,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
 
+	// Reload the weapon
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void Reload();
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void FinishReload();
+
 protected:
 	/** Ends gameplay for this component. */
 	UFUNCTION()
@@ -73,11 +79,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 TotalAmmo;
 
-	// Reload the weapon
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void Reload();
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void FinishReload();
+	
 
 
 	// Reload Input Action

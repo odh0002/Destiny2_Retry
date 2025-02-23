@@ -54,7 +54,7 @@ public:
 	virtual void GetDamage(float DamageAmount);
 
 	UFUNCTION(BlueprintCallable, Category = "DEAD")
-	virtual void Die();
+	void Die();
 
 	//몬스터 스포너에게 몬스터 사망 카운트를 전달하기 위해 클래스 지정 변수
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -67,18 +67,22 @@ public:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	int32 SetWave = 4;
 
-	////WaveA 지정함수
-	//void SetWaveA(AEnemySpawner* Spawner);
-	//
-	////WaveB 지정함수
-	//void SetWaveB(AEnemySpawner* Spawner);
-	//
-	////WaveC 지정함수
-	//void SetWaveC(AEnemySpawner* Spawner);
-
 	void SetWaveA();
 
 	void SetWaveB();
 
 	void SetWaveC();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyOwner)
+	class AEnemyBase* EnemyOwner;
+
+	//만들어진 유저 위젯을 받는것?
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UUserWidget> EnemyWidget;
+
+	//뷰 포트에 로드된 위젯 저장용 변수
+	class UEnemyHPWidget* EnemyUI;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyOwner)
+	int32 EnemyType = 0;
 };

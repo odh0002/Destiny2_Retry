@@ -2,6 +2,7 @@
 
 
 #include "EnemySpawner.h"
+#include "EngineUtils.h"
 
 // Sets default values
 AEnemySpawner::AEnemySpawner()
@@ -16,6 +17,7 @@ void AEnemySpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SetSpawnPoints();
 }
 
 // Called every frame
@@ -60,62 +62,34 @@ void AEnemySpawner::SpawnEnemyWave(TArray<TSubclassOf<AEnemyBase>> Wave, int32 W
 	for (int i = 0; i < Wave.Num(); ++i)
 	{
 		//반복으로 해당 웨이브안에 적들이 소환 >> 딜레이가 없기에 아마 한꺼번에 소환이 될 같음
-		GetWorld()->SpawnActor<AEnemyBase>(Wave[i], FTransform(FVector(0)));
+		//GetWorld()->SpawnActor<AEnemyBase>(Wave[i], FTransform(FVector(0)));
 
-		//if (WaveNum == 1)
-		//{
-		//	//해당 웨이브 카운트를 1 증가
-		//	WaveAEnemys += 1;
-		//	//해당 적에게 자신이 어느 웨이브에 속하고 스포너 정보를 알려줌 
-		//	//Cast<AEnemyBase>(Wave[i])->SetWaveA(this);
-		//	Cast<AEnemyBase>(Wave[i])->SetWaveA();
-		//}
-		//else if (WaveNum == 2)
-		//{
-		//	//해당 웨이브 카운트를 1 증가
-		//	WaveBEnemys += 1;
-		//	//해당 적에게 자신이 어느 웨이브에 속하고 스포너 정보를 알려줌
-		//	//Cast<AEnemyBase>(Wave[i])->SetWaveA(this);
-		//	Cast<AEnemyBase>(Wave[i])->SetWaveB();
-		//}
-		//else if (WaveNum == 3)
-		//{
-		//	//해당 웨이브 카운트를 1 증가
-		//	WaveCEnemys += 1;
-		//	//해당 적에게 자신이 어느 웨이브에 속하고 스포너 정보를 알려줌
-		//	//Cast<AEnemyBase>(Wave[i])->SetWaveA(this);
-		//	Cast<AEnemyBase>(Wave[i])->SetWaveC();
-		//}
-		//else {}
+		AEnemyBase* spawnEnemy = GetWorld()->SpawnActor<AEnemyBase>(Wave[i], spawnPoints[i]->GetActorLocation(), FRotator(0));
 
-		//switch (WaveNum)
-		//{
-		//case 1:	//WaveA에 속함
-		//	//해당 웨이브 카운트를 1 증가
-		//	WaveAEnemys += 1;
-		//	//해당 적에게 자신이 어느 웨이브에 속하고 스포너 정보를 알려줌 
-		//	//Cast<AEnemyBase>(Wave[i])->SetWaveA(this);
-		//	Cast<AEnemyBase>(Wave[i])->SetWaveA();
-		//	break;
-		//case 2:	//WaveB에 속함
-		//	//해당 웨이브 카운트를 1 증가
-		//	WaveBEnemys += 1;
-		//	//해당 적에게 자신이 어느 웨이브에 속하고 스포너 정보를 알려줌 
-		//	//Cast<AEnemyBase>(Wave[i])->SetWaveA(this);
-		//	Cast<AEnemyBase>(Wave[i])->SetWaveB();
-		//	break;
-		//case 3:	//WaveC에 속함
-		//	//해당 웨이브 카운트를 1 증가
-		//	WaveCEnemys += 1;
-		//	//해당 적에게 자신이 어느 웨이브에 속하고 스포너 정보를 알려줌 
-		//	//Cast<AEnemyBase>(Wave[i])->SetWaveA(this);
-		//	Cast<AEnemyBase>(Wave[i])->SetWaveC();
-		//	break;
-		//case 4:	//wave에 속하지 않을 경우 아무런 처리가 없음
-		//	break;
-		//default:
-		//	break;
-		//}
+		//
+
+		switch (WaveNum)
+		{
+		case 1:
+			WaveAEnemys += 1;
+			//GetWorld()->GetTimerManager().SetTimer(MethodCalling, spawnEnemy, &AEnemyBase::SetWaveA, 0.2f, false);
+			spawnEnemy->SetWaveA();
+			break;
+		case 2:
+			WaveBEnemys += 1;
+			//GetWorld()->GetTimerManager().SetTimer(MethodCalling, spawnEnemy, &AEnemyBase::SetWaveB, 0.2f, false);
+			spawnEnemy->SetWaveB();
+			break;
+		case 3:
+			WaveCEnemys += 1;
+			//GetWorld()->GetTimerManager().SetTimer(MethodCalling, spawnEnemy, &AEnemyBase::SetWaveC, 0.2f, false);
+			spawnEnemy->SetWaveC();
+			break;
+		case 4:
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -166,4 +140,27 @@ void AEnemySpawner::WaveEnemyCountDown(int32 WaveNum)
 	default:
 		break;
 	}
+}
+
+void AEnemySpawner::SetSpawnPoints()
+{
+	for (TActorIterator<AActor> iter(GetWorld()); iter; ++iter)
+	{
+		AActor* spawn = *iter;
+		if (spawn->GetName().Contains(TEXT("BP_EnemySpawnPoint")))
+		{
+			//배열에 스폰 장소를 넣어줌
+			spawnPoints.Add(spawn);
+		}
+	}
+}
+
+int32 AEnemySpawner::RandomSpawnPoint()
+{
+	return FMath::RandRange(0, spawnPoints.Num()-1);
+}
+
+void AEnemySpawner::OnPlayer()
+{
+	Fight = true;
 }

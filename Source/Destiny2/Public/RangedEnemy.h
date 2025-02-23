@@ -34,6 +34,9 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	class UArrowComponent* Arrow;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class USphereComponent* WeakCollision;
+
 	int32 ActionNum;
 	FVector Dir;
 
@@ -46,4 +49,12 @@ public:
 	void ActionNumReset(); // 위에 이동과 관련된 함수가 끝난 다음에 다시 정상적으로 이동하게 만들기 위한 함수
 
 	float atkTime = 0.0f;
+
+	class ARangedEnemyAI* AIController;
+
+	UFUNCTION()
+	void OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnWeakOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

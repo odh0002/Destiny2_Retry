@@ -27,4 +27,36 @@ public:
 	void Attack();
 
 	float atkTime = 0.0f;
+
+	class AEnemyAIController* MeleeAI;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class USphereComponent* HeadCollision;
+
+	class UMEAnimInstance* Anim; //�ִϸ��̼��� �ڵ忡�� �����ϱ����� �ϴ� ����
+
+	//���⿡ �����Ǵ� �ݸ���
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	class UBoxComponent* WeaponCollision;
+	
+	//������ �̸��� �����ϴ� ����
+	FName SoketName = TEXT("FX_Trail_R_01");
+
+	//���� ��ġ�� �����ϴ� FVector ����
+	FVector PreLocation;
+
+	//������ �ݸ����� Ȱ��ȭ�ϴ� ����
+	void OnWeaponCollision();
+
+	//������ �ݸ����� ��Ȱ��ȭ�ϴ� ����
+	void OffWeaponCollision();
+
+	UFUNCTION()
+	void OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnHeadOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

@@ -23,6 +23,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	class ARangedEnemy* EnemyCharacter; //자신의 공격 범위를 전 지역에서 쓰기 위해 클래스 지정
 
+	float CurTime = 0.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float ATKDelayTime = 3.7f;
+
 	class APawn* Player;
 
 	FTimerHandle MovingCalling;
@@ -33,4 +38,11 @@ protected:
 	void AIRightMoveCalling();
 	void AILeftMoveCalling();
 	void AIStopCalling();
+
+public:
+	void Setlocation(FVector Location);
+
+
+	UPROPERTY()
+	class UREAnimInstance* Anim;
 };

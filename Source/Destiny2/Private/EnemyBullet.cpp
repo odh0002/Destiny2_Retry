@@ -2,6 +2,8 @@
 
 
 #include "EnemyBullet.h"
+#include "../Destiny2Character.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 AEnemyBullet::AEnemyBullet()
@@ -9,6 +11,11 @@ AEnemyBullet::AEnemyBullet()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Collision = CreateDefaultSubobject<USphereComponent>(TEXT("Collision"));
+	SetRootComponent(Collision);
+	Collision->SetSphereRadius(10.067607f);
+	Collision->SetCollisionProfileName(FName("REBullet"));
+	Collision->OnComponentBeginOverlap.AddDynamic(this, &AEnemyBullet::OnEnemyBulletOverlap);
 }
 
 // Called when the game starts or when spawned
@@ -27,5 +34,22 @@ void AEnemyBullet::Tick(float DeltaTime)
 
 	FVector p = GetActorLocation() + Dir * Speed * DeltaTime;
 	SetActorLocation(p);
+}
+
+void AEnemyBullet::OnEnemyBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	ADestiny2Character* player = Cast<ADestiny2Character>(OtherActor);
+
+	if (player)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Enemy Bullet Attack -> Player"));
+
+		Destroy();
+	}
+
+	else
+	{
+		Destroy();
+	}
 }
 
