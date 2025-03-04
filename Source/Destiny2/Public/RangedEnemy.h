@@ -57,4 +57,12 @@ public:
 
 	UFUNCTION()
 	void OnWeakOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound)
+	class USoundBase* DeathSound;
+
+	bool PlayDeathSound = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound)
+	class USoundBase* AttackSound;
 };

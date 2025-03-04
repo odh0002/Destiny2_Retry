@@ -112,3 +112,8 @@ void AEnemyBase::SetWaveC()
 	SetWave = 3;
 }
 
+void AEnemyBase::PlaySound(UObject* object, USoundBase* sound, FVector loca)
+{
+	UGameplayStatics::PlaySoundAtLocation(object, sound, loca);
+}
+

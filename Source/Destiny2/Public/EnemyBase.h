@@ -85,4 +85,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyOwner)
 	int32 EnemyType = 0;
+
+
+	virtual void PlaySound(UObject* object, USoundBase* sound, FVector loca);
 };

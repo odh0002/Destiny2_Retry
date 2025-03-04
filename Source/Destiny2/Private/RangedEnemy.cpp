@@ -73,6 +73,11 @@ void ARangedEnemy::Tick(float DeltaTime)
 	if (Health <= 0)
 	{
 		AIController->Anim->bIsDead = true;
+		if (!PlayDeathSound)
+		{
+			PlaySound(this, DeathSound, GetActorLocation());
+			PlayDeathSound = true;
+		}
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		WeakCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
@@ -113,6 +118,7 @@ void ARangedEnemy::Attack()
 {
 	if (atkTime <= 0)
 	{
+		PlaySound(this, AttackSound, GetActorLocation());
 		PlayAnimMontage(AIController->Anim->REMontage, 1.0f, FName("Fire"));
 		//정해진 위치에 총알 생성
 		GetWorld()->SpawnActor<AEnemyBullet>(Bullet, Arrow->GetComponentTransform());

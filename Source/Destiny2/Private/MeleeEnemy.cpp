@@ -9,10 +9,11 @@
 #include "Components/CapsuleComponent.h"
 #include "MEAnimInstance.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
-AMeleeEnemy::AMeleeEnemy()
-{
+	AMeleeEnemy::AMeleeEnemy()
+	{
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -22,11 +23,8 @@ AMeleeEnemy::AMeleeEnemy()
 	AttackRange = 300.0f;
 	GetCharacterMovement()->MaxWalkSpeed = MoveSpeed;
 
-	//ĸ���ݶ��̴��� �������� �������ش�.
 	GetCapsuleComponent()->SetCollisionProfileName(FName("Enemy"));
-	//ĸ���ݶ��̴��� �浹 �̺�Ʈ�� �������ش�.
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AMeleeEnemy::OnEnemyOverlap);
-	//ó������ �ִ� ĸ���ݶ��̴��� ũ����� �������ش�
 	GetCapsuleComponent()->SetCapsuleHalfHeight(113.558517f);
 	GetCapsuleComponent()->SetCapsuleRadius(51.428543f);
 
@@ -41,15 +39,15 @@ AMeleeEnemy::AMeleeEnemy()
 
 	
 
-	//���� �ݸ��� ���� �� ����
+	//약점 부분이 되는 콜리전을 먼저 생성
 	HeadCollision = CreateDefaultSubobject<USphereComponent>(TEXT("Head"));
-	//�޽� �Ʒ��� ��������
+	//약점 콜리전을 캐릭터 메쉬 아래에 속하게 만듦
 	HeadCollision->SetupAttachment(GetMesh());
-	//�ݸ����� ĳ������ ����, �Ӹ� �κп� �������ش�
+	//해당 콜리전의 위치를 조정함
 	HeadCollision->SetRelativeLocation(FVector(-15.0f, 45.0f, 175.0f));
-	//�浹�� EnemyWeak�� �����Ͽ� �ش� �����¿� �°� �浹�ǰ� ����
+	//해당 콜리전의 프리셋을 지정해줌
 	HeadCollision->SetCollisionProfileName(FName("EnemyWeak"));
-	//�浹�� ��� �Լ� ȣ��
+	//해당 콜리전이 충돌 감지가 되었을 때 무슨 함수를 불러올 것인지 지정
 	HeadCollision->OnComponentBeginOverlap.AddDynamic(this, &AMeleeEnemy::OnHeadOverlap);
 
 	//�ִϸ��̼� �������Ʈ �Ҵ�
@@ -95,8 +93,14 @@ void AMeleeEnemy::Tick(float DeltaTime)
 
 	if (Health <= 0)
 	{
-		
 		Anim->bIsDead = true;
+		if (!PlayDeathSound)
+		{
+			//UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+
+			PlaySound(this, DeathSound, GetActorLocation());
+			PlayDeathSound = true;
+		}
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		HeadCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
@@ -156,6 +160,7 @@ void AMeleeEnemy::Attack()
 
 void AMeleeEnemy::OnWeaponCollision()
 {
+	PlaySound(this, AttackSound, GetActorLocation());
 	WeaponCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }
 

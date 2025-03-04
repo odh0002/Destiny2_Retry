@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "EnemyBase.h"
+#include "Sound/SoundBase.h"
+#include "Sound/SoundCue.h"
 #include "MeleeEnemy.generated.h"
 
 UCLASS()
@@ -59,4 +61,12 @@ public:
 
 	UFUNCTION()
 	void OnWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound)
+	USoundCue* DeathSound;
+
+	bool PlayDeathSound = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound)
+	USoundCue* AttackSound;
 };
