@@ -68,13 +68,15 @@ private:
 	/** The Character holding this weapon*/
 	ADestiny2Character* Character;
 
+public:
 	// 현재 남은 탄약 수
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 CurrentAmmo;
-
+public:
 	// 탄창 크기 (최대 탄약)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 MaxAmmo;
+public:
 	// 소지 탄약
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 TotalAmmo;
