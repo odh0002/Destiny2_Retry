@@ -15,14 +15,19 @@ class DESTINY2_API UMainWidget : public UUserWidget
 	GENERATED_BODY()
 	
 
+
+
+//protected:
+//	virtual void NativeConstruct() override;
+
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget, AllowPrivateAccess = "true"))
 	class UTextBlock* TotalAmmo;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget, AllowPrivateAccess = "true"))
 	class UTextBlock* CurrentAmmo;
 
-
-	void PrintTotalAmmo(int32 value);
-	void PrintCurrentAmmo(int32 value);
+public:
+	void PrintTotalAmmo(int TotalAmmo) const;
+	void PrintCurrentAmmo(int CurrentAmmo, int TotalAmmo) const;
 };

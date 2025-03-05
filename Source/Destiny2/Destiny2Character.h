@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "MainWidget.h"
 #include "Destiny2Character.generated.h"
 
 class UInputComponent;
@@ -93,6 +94,12 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float DashSpeed = 1500.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Widget")
+	TSubclassOf <UMainWidget> MainWidgetClass;
+	UPROPERTY(EditAnywhere, Category = "Widget")
+	UMainWidget* MainWidget;
+
 
 };
 
