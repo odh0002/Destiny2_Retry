@@ -113,6 +113,8 @@ void AMeleeEnemy::Attack()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Melee Enemy Attack"));
 
+		PlaySound(this, AttackSound, GetActorLocation());
+
 		Anim->bIsAttack = true;
 
 		atkTime = 2.0f;
