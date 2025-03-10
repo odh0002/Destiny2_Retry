@@ -41,7 +41,7 @@ void AGameClearActor::Tick(float DeltaTime)
 
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(20, 3.0f, FColor::Green, TEXT("Stage Clear"));
+		//GEngine->AddOnScreenDebugMessage(20, 3.0f, FColor::Green, TEXT("Stage Clear"));
 	}
 }
 

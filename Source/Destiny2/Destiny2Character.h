@@ -95,10 +95,10 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float DashSpeed = 1500.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Widget")
+	/*UPROPERTY(EditAnywhere, Category = "Widget")
 	TSubclassOf <UMainWidget> MainWidgetClass;
 	UPROPERTY(EditAnywhere, Category = "Widget")
-	UMainWidget* MainWidget;
+	UMainWidget* MainWidget;*/
 
 
 };
